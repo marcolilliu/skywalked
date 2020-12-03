@@ -1,49 +1,48 @@
-import React from 'react'
-import store from '../../store/main'
-import {fetchPeople} from '../../actions/main'
+import React from 'react';
+import { connect } from 'react-redux';
+import { nextPeople, prevPeople } from '../../redux/redux';
+import STContent from './st_content'
 
-let page = 1 // init page to 1
+// SimpleTable.js
 
-/* Table */
-function SimpleTable() {
-  return (
-    <div>
-      {
-        RenderTable()
-      }
-      {
-        SimpleNavPag()
-      }
-    </div>
-  );
+export class SimpleTable extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Characters</h1>
+        <div>
+          <STContent page={
+            this.props.people || 1
+          }/>
+        </div>
+        <button onClick={() =>
+            this.props.nextPeople()
+          }>
+          Next
+        </button>
+        <button onClick={() =>
+            this.props.prevPeople()
+          }>
+          Previous
+        </button>
+      </div>
+    );
+  }
 }
 
-function SimpleNavPag(){
-  return (
-    <div>
-      <button onClick={NextPage}>Next</button>
-      <button onClick={PrevPage}>Previous</button>
-    </div>
-  )
-}
+// TableContainer.js
+const mapStateToProps = state => ({
+  people: state.people,
+});
 
-function RenderTable(){
-  store.dispatch(fetchPeople(page))
-  return (
-    <div>
-      come faccio a fare il render dei valori del json?
-    </div>
-  )
-}
+const mapDispatchToProps = {
+  nextPeople,
+  prevPeople
+};
 
-function NextPage(){
-  page += 1
-  store.dispatch(fetchPeople(page))
-}
+const TableContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SimpleTable);
 
-function PrevPage(){
-  page -= 1
-  store.dispatch(fetchPeople(page))
-}
-
-export default SimpleTable
+export default TableContainer;
