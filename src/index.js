@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import SimpleTopbar from './components/simple_topbar/main'
-import SimpleTable from './components/simple_table/main'
+import SimpleTopbar from './components/simple_topbar/index'
+import SimpleTable from './components/simple_table/index'
 import './index.css'
 
 // Redux

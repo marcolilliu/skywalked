@@ -1,18 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { nextPeople, prevPeople } from '../../redux/redux';
+import React from 'react'
 import STContent from './st_content'
+import { connect } from 'react-redux'
+import { nextPeople, prevPeople } from '../../redux/redux'
 
-// SimpleTable.js
-
+// SIMPLE TABLE
 export class SimpleTable extends React.Component {
   render() {
     return (
       <div>
-        <h1>Characters</h1>
         <div>
           <STContent page={
-            this.props.people || 1
+            this.props.people || 0
           }/>
         </div>
         <button onClick={() =>
@@ -30,19 +28,17 @@ export class SimpleTable extends React.Component {
   }
 }
 
-// TableContainer.js
+// SIMPLE TABLE CONTAINER
 const mapStateToProps = state => ({
-  people: state.people,
-});
-
+    people: state.people,
+  })
 const mapDispatchToProps = {
-  nextPeople,
-  prevPeople
-};
-
+    nextPeople,
+    prevPeople
+  }
 const TableContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SimpleTable);
+    mapStateToProps,
+    mapDispatchToProps
+  )(SimpleTable)
 
 export default TableContainer;

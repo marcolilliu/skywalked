@@ -1,36 +1,48 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux'
 
-// actions.js
+// ACTIONS
 export const nextPeople = page => ({
   type: 'NEXT_PEOPLE',
   page,
-});
-
+})
 export const prevPeople = page => ({
   type: 'PREV_PEOPLE',
   page,
-});
+})
 
-// reducers.js
+// REDUCERS
 export const people = (state = 1, action) => {
   switch (action.type) {
     case 'NEXT_PEOPLE':
       return state + 1
     case 'PREV_PEOPLE':
-        return state - 1
+      return state - 1
     default:
       return state
   }
-};
-
+}
 export const reducers = combineReducers({
   people,
-});
+})
 
-// store.js
-export function configureStore(initialState = {}) {
-  const store = createStore(reducers, initialState)
+// STORE
+export function configureStore() {
+  const store = createStore(reducers, applyMiddleware(checkPage))
   return store
 }
-
 export const store = configureStore()
+
+// MIDDLEWARE
+function checkPage({ getState }) {
+  return next => action => {
+    return (
+      (getState().people === 1 && action.type === 'PREV_PEOPLE')
+        || 
+      (getState().people === 9 && action.type === 'NEXT_PEOPLE') 
+        ? 
+        console.log('no more results')
+        : 
+        next(action)
+      )
+  }
+}
